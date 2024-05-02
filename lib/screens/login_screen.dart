@@ -70,10 +70,10 @@ class _LogineState extends State<Logine> {
           ),);
 GlobalKey<FormState> formstate=GlobalKey();
 bool isLoding=false;
+  Curd _curd = Curd();
 
   TextEditingController email=TextEditingController();
   TextEditingController password=TextEditingController();
-    Curd _curd = Curd();
     // void gettoken(){
     //   FirebaseMessaging.instance.getToken().then((value) {
     //     print("**********************************************************************************");
@@ -95,13 +95,14 @@ bool isLoding=false;
       "password":password.text.trim().toString(),
     });
      if(respons["status"] == "success"){
+      sharedPref.setString("profil", '');
       sharedPref.setString("id", respons['data']['id'].toString());
-      
+      sharedPref.setString("user_type", respons['data']['user_type']);
       sharedPref.setString("phone", respons['data']['phone']);
       sharedPref.setString("username", respons['data']['username']);
       sharedPref.setString("email", respons['data']['email']);
    Navigator.of(context).push(MaterialPageRoute(
-                                     builder: (context) => home()));
+                                     builder: (context) => home(index: 2,)));
     // Navigator.of(context).pushNamedAndRemoveUntil("home", (route) => false);
     }  else{
       isLoding=false;
@@ -148,7 +149,7 @@ bool isLoding=false;
     return WillPopScope(
       onWillPop: ()async => await openDialog2("هل ترغب بلخروج حقا ؟"),
       child: Scaffold(
-        backgroundColor:  sharedPref.getBool("mode") ?? ""==true? darktheam.primaryColor:Colors.white,
+        backgroundColor: Colors.white,
         body: (isLoding==true)?Center(child: CircularProgressIndicator(),):
           Padding(
             padding: const EdgeInsets.only(top: 10),

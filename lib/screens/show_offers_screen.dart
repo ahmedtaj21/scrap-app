@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:scrap_app/component/crud.dart';
 import 'package:scrap_app/constant/linkApi.dart';
 import 'package:scrap_app/main.dart';
+import 'package:scrap_app/screens/chatRome_screen.dart';
+import 'package:scrap_app/screens/profile_page.dart';
 import 'package:scrap_app/widget/dark_theams.dart';
 import 'package:http/http.dart' as http;
 
@@ -87,172 +89,280 @@ class _showOffersState extends State<showOffers> {
       //                               colors:[Color.fromARGB(255, 246, 246, 247),Color.fromARGB(255, 181, 176, 176)] )
       //  ),
       child: Scaffold(
-        backgroundColor: Color.fromARGB(255, 246, 246, 247),
-      //  backgroundColor: Colors.transparent,
+      //  backgroundColor: Color.fromRGBO(143, 159, 240, 1) ,
+      appBar:   AppBar(
+        foregroundColor: Colors.white,
+        
+         backgroundColor: Color.fromRGBO(69, 88, 181, 1),
+         title:  Text(
+                "العروض",
+                style: TextStyle(color: Colors.white, fontSize: 25),
+              ),
+              centerTitle: true,
+      ),
         body: (isLoding == true)
             ? Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(color:Color.fromRGBO(69, 88, 181, 1) ,),
               )
-            : FutureBuilder(
-                future: readOffer(widget.orderId),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                    if (snapshot.data != null) {
-                      return ListView.builder(
-                          itemCount: snapshot.data['data'].length,
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, i) {
-                            return Padding(
-                                padding: const EdgeInsets.all(18.0),
-                                child: Container(
-                                   decoration: BoxDecoration(
-                                    border: Border.all(),
-                                    borderRadius: BorderRadius.circular(10),
-                                     
-                                  //   gradient: LinearGradient(
-                                  //   begin: Alignment.topCenter,
-                                  //   end: Alignment.bottomRight,
-                                  //   colors:[Color.fromARGB(255, 246, 246, 247),Color.fromARGB(255, 164, 160, 160)] )
-                                    color: Color.fromARGB(255, 246, 246, 247),
-                                  ),
-                                  
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              TextButton(
-                                                  onPressed: () async {
-                                                    //  print(offer);
-                                                  },
-                                                  child: Text(
-                                                    "${snapshot.data['data'][i]['offer_description'].toString()}",
-                                                    style: TextStyle(
-                                                        color: Colors.blue,
-                                                        fontSize: 16),
-                                                  )),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                ": تفاصيل العرض",
-                                                style: TextStyle(fontSize: 16),
-                                              ),
-                                            ]),
-                                        Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              TextButton(
-                                                  onPressed: () {},
-                                                  child: Text("زيارة الحساب")),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              TextButton(
-                                                  onPressed: () {},
-                                                  child: Text("بدء دردشة")),
-                                            ]),
-                                        Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              MaterialButton(
-                                                  height: 30,
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              25.0),
-                                                      side: BorderSide(
-                                                          color: Colors.white)),
-                                                  color: Colors.white,
-                                                  onPressed: () async {
-                                                    await deletOffer(snapshot
-                                                        .data['data'][i]['id']
-                                                        .toString());
-                                                  },
-                                                  child: Text("رفض",
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 15,
-                                                          fontFamily:
-                                                              "ReadexPro"))),
-                                              SizedBox(width: 30),
-                                              MaterialButton(
-                                                  height: 30,
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              25.0),
-                                                      side: BorderSide(
-                                                          color: Colors.white)),
-                                                  color: Colors.white,
-                                                  onPressed: () async {
-                                                    (snapshot.data['data'][i]
-                                                                    ['accept']
-                                                                .toString() ==
-                                                            '0')
-                                                        ? await acceptOffer(
-                                                            snapshot.data['data'][i]
-                                                                    ['id']
-                                                                .toString(),
-                                                            snapshot.data['data'][i]
-                                                                    ['token']
-                                                                .toString(),
-                                                            snapshot.data['data'][i]
-                                                                    [
-                                                                    'offer_description']
-                                                                .toString())
-                                                        : '';
-                                                  },
-                                                  child: (snapshot.data['data'][i]
-                                                                  ['accept']
-                                                              .toString() ==
-                                                          '0')
-                                                      ? Text("قبول",
+            : Container(
+              height: 1000,
+              
+              decoration: BoxDecoration(
+                    image: new DecorationImage(
+        image: new AssetImage("images/i8.jpg"),
+        fit: BoxFit.fill,
+      ),
+                      // gradient: LinearGradient(
+                      //               begin: Alignment.topCenter,
+                      //               end: Alignment.bottomRight,
+                      //               colors:[Color.fromARGB(255, 246, 246, 247),Color.fromARGB(255, 164, 160, 160)] )
+              ),
+              // decoration: BoxDecoration(
+              //         gradient: LinearGradient(
+              //                       begin: Alignment.topCenter,
+              //                       end: Alignment.bottomRight,
+              //                       colors:[Color.fromARGB(255, 69, 88, 181),Colors.white,Color.fromARGB(255, 246, 246, 247),Color.fromARGB(255, 69, 88, 181)] )
+              // ),
+              child: FutureBuilder(
+                  future: readOffer(widget.orderId),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.hasData) {
+                      if (snapshot.data != null) {
+                        return ListView.builder(
+                            itemCount: snapshot.data['data'].length,
+                            shrinkWrap: true,
+                        //    physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, i) {
+                              return SingleChildScrollView(
+                            scrollDirection: Axis.vertical,    
+                                child: Padding(
+                                    padding: const EdgeInsets.all(18.0),
+                                    child: Container(
+                                       decoration: BoxDecoration(
+                                        border: Border.all(width: 2,color: Color.fromARGB(255, 69, 88, 181),),
+                                        borderRadius: BorderRadius.circular(10),
+                                        
+                                      //   gradient: LinearGradient(
+                                      //   begin: Alignment.topCenter,
+                                      //   end: Alignment.bottomRight,
+                                      //   colors:[Color.fromARGB(255, 246, 246, 247),Color.fromARGB(255, 164, 160, 160)] )
+                                        color:Colors.white ,
+                                      ),
+                                      
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Column(
+                                          children: [
+                                            // Row(
+                                            //     mainAxisAlignment:
+                                            //         MainAxisAlignment.end,
+                                            //     children: [
+                                            //      Text(
+                                            //             "${snapshot.data['data'][i]['offer_description'].toString()}",
+                                            //             style: TextStyle(
+                                            //                 color: Colors.black54,
+                                            //                 fontSize: 16),
+                                            //           ),
+                                            //       SizedBox(
+                                            //         width: 5,
+                                            //       ),
+                                            //       Text(
+                                            //         ": تفاصيل العرض",
+                                            //         style: TextStyle(fontSize: 16,color: Color.fromARGB(255, 69, 88, 181)),
+                                            //       ),
+                                            //     ]),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              children: [
+                                                Text(": (${i+1}) تفاصيل العرض",
+                                                                  style: TextStyle(
+                                                                      color:  Color.fromARGB(255, 69, 88, 181),
+                                                                      fontSize: 15,
+                                                                      fontFamily:
+                                                                          "ReadexPro")),
+                                              ],
+                                            ),
+                                            SizedBox(height: 10,),
+                                              Container(
+                                                        alignment: Alignment.topRight,
+                                                        decoration: BoxDecoration(
+                                                          border: Border.all(
+                                                            width: 0,
+                                                            color:  Color.fromARGB(255, 69, 88, 181),
+                                                          ),
+                                                          borderRadius: BorderRadius.circular(10.0),
+                                                        ),
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.all(8.0),
+                                                          child: Text(
+                                                             "${snapshot.data['data'][i]['offer_description'].toString() }",style: TextStyle(color: Colors.black54),
+                                                            textAlign: TextAlign.right,
+                                                          ),
+                                                        )),
+                                                SizedBox(height: 10,),
+                                            Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  TextButton(
+                                                      onPressed: () {
+                                                            Navigator.push(
+                                                            context,
+                                                            PageRouteBuilder(
+                                                              pageBuilder:
+                                                                  (_, __, ___) =>
+                                                                      profilePage(
+                                                                id: snapshot
+                                                                    .data['data']
+                                                                        [i][
+                                                                        'userId']
+                                                                    .toString(),
+                                                              ),
+                                                              transitionDuration:
+                                                                  Duration(
+                                                                      seconds: 1),
+                                                              transitionsBuilder: (_,
+                                                                      a, __, c) =>
+                                                                  FadeTransition(
+                                                                      opacity: a,
+                                                                      child: c),
+                                                            ),
+                                                          );
+                                                      },
+                                                      child: Text("زيارة الحساب",style: TextStyle(color: Color.fromARGB(
+                                                                255, 69, 88, 181),),)),
+                                                  SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  TextButton(
+                                                      onPressed: () {
+                                                          Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        chatRome(
+                                                          senderId: sharedPref
+                                                                  .getString(
+                                                                      "id") ??
+                                                              "",
+                                                          receiverId: snapshot
+                                                              .data['data'][i]
+                                                                  ['userId']
+                                                              .toString(),
+                                                          receiverName: snapshot
+                                                              .data['data'][i]
+                                                                  ['name']
+                                                              .toString(),
+                                                          senderName: '',
+                                                        )));
+                                                      },
+                                                      child: Text("بدء دردشة",style: TextStyle(color: Color.fromARGB(
+                                                                255, 69, 88, 181),),)),
+                                                ]),
+                                                
+                                            Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                              
+                                                  MaterialButton(
+                                                      height: 30,
+                                                      shape: RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                  25.0),
+                                                          side: BorderSide(
+                                                              color: Colors.white)),
+                                                      color: Color.fromARGB(
+                                                                255, 69, 88, 181),
+                                                      onPressed: () async {
+                                                        await deletOffer(snapshot
+                                                            .data['data'][i]['id']
+                                                            .toString());
+                                                      },
+                                                      child: Text("رفض",
                                                           style: TextStyle(
-                                                              color: Colors.black,
-                                                              fontSize: 15,
-                                                              fontFamily:
-                                                                  "ReadexPro"))
-                                                      : Text("تم القبول",
-                                                          style: TextStyle(
-                                                              color: Colors.black,
+                                                              color: Colors.white,
                                                               fontSize: 15,
                                                               fontFamily:
                                                                   "ReadexPro"))),
-                                            ]),
-                                        // SizedBox(
-                                        //   height: 50,
-                                        // ),
-                                      ],
-                                    ),
-                                  ),
-                                ));
-                          });
+                                              // (snapshot.data['data'][i]
+                                              //                         ['accept']
+                                              //                     .toString() ==
+                                              //                 '0')?    SizedBox(width: 30): SizedBox(width:0),
+                                              SizedBox(width: 30),
+                                                  MaterialButton(
+                                                      height: 30,
+                                                      shape: RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                  25.0),
+                                                          side: BorderSide(
+                                                              color: Colors.white)),
+                                                      color:  Color.fromARGB(255, 69, 88, 181),
+                                                      onPressed: () async {
+                                                        (snapshot.data['data'][i]
+                                                                        ['accept']
+                                                                    .toString() ==
+                                                                '0')
+                                                            ? await acceptOffer(
+                                                                snapshot.data['data'][i]
+                                                                        ['id']
+                                                                    .toString(),
+                                                                snapshot.data['data'][i]
+                                                                        ['token']
+                                                                    .toString(),
+                                                                snapshot.data['data'][i]
+                                                                        [
+                                                                        'offer_description']
+                                                                    .toString())
+                                                            : '';
+                                                      },
+                                                      child: (snapshot.data['data'][i]
+                                                                      ['accept']
+                                                                  .toString() ==
+                                                              '0')
+                                                          ? Text("قبول",
+                                                              style: TextStyle(
+                                                                  color: Colors.white,
+                                                                  fontSize: 15,
+                                                                  fontFamily:
+                                                                      "ReadexPro"))
+                                                          : Text("تم القبول",
+                                                              style: TextStyle(
+                                                                  color: Colors.white,
+                                                                  fontSize: 15,
+                                                                  fontFamily:
+                                                                      "ReadexPro"))),
+                                                ]),
+                                            // SizedBox(
+                                            //   height: 50,
+                                            // ),
+                                          ],
+                                        ),
+                                      ),
+                                    )),
+                              );
+                            });
+                      }
                     }
-                  }
-      
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Padding(
-                      padding: const EdgeInsets.all(18.0),
-                      child: Center(child: CircularProgressIndicator()),
+                    
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Padding(
+                        padding: const EdgeInsets.all(18.0),
+                        child: Center(child: CircularProgressIndicator()),
+                      );
+                    }
+                    return Center(
+                      child: Text(
+                        "لايوجد",
+                        style: TextStyle(
+                            color: sharedPref.getBool("mode") ?? "" == true
+                                ? Colors.white
+                                : Colors.black54),
+                      ),
                     );
-                  }
-                  return Center(
-                    child: Text(
-                      "لايوجد",
-                      style: TextStyle(
-                          color: sharedPref.getBool("mode") ?? "" == true
-                              ? Colors.white
-                              : Colors.black54),
-                    ),
-                  );
-                }),
+                  }),
+            ),
       ),
     );
   }

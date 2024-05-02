@@ -87,14 +87,15 @@ class _verfiy_screenState extends State<verfiy_screen> {
      //  print(respons["status"]);
     
       Navigator.of(context).push(MaterialPageRoute(
-                                        builder: (context) => home()));
+                                        builder: (context) => home(index: 2,)));
     // Navigator.of(context).pushNamedAndRemoveUntil("home", (route) => false);
      print(respons['data']['id']);
         sharedPref.setString("id", respons['data']['id'].toString());
-        sharedPref.setString("profil", "0");
-           sharedPref.setString("phone", respons['data']['phone']);
-           sharedPref.setString("username", respons['data']['username']);
-           sharedPref.setString("email", respons['data']['email']);
+          sharedPref.setString("profil", '');
+          sharedPref.setString("user_type", respons['data']['user_type']);
+        sharedPref.setString("phone", respons['data']['phone']);
+        sharedPref.setString("username", respons['data']['username']);
+        sharedPref.setString("email", respons['data']['email']);
     } 
      else{
       print('the code should exeute ##############');

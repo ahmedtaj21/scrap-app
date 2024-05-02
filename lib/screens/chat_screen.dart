@@ -47,7 +47,7 @@ class _chatState extends State<chat> {
                   return ListView.builder(
                       itemCount: snapshot.data['data'].length,
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                    //  physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (context, i) {
                         return Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -65,7 +65,8 @@ class _chatState extends State<chat> {
                                               .toString(),
                                           receiverName: snapshot.data['data'][i]
                                                   ['receiverName']
-                                              .toString(),
+                                              .toString(), senderName: snapshot.data['data'][i]
+                                                  ['senderName'],
                                         )));
                                 // : Navigator.of(context)
                                 //     .push(MaterialPageRoute(

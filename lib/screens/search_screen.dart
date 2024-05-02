@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:scrap_app/component/crud.dart';
 import 'package:scrap_app/constant/linkApi.dart';
+import 'package:scrap_app/main.dart';
 import 'package:scrap_app/screens/home_screen.dart';
 import 'package:scrap_app/screens/profile_page.dart';
 import 'package:scrap_app/screens/profile_screen.dart';
@@ -24,16 +25,30 @@ class _searchState extends State<search> {
         await _curd.postRequst(linkread_allAcount, {"name": result.toString()});
 
     if (respons["status"] == "success") {
-      print(respons["status"]);
       return respons;
     } else {
-      print(respons["status"]);
       return null;
     }
   }
 
+  // readProfile() async {
+  //   var respons = await _curd.postRequst(
+  //       linkreed_creat_profile, {'id': sharedPref.getString("id") ?? ""});
+
+  //   if (respons["status"] == "success") {
+
+  //     sharedPref.setBool("profil", true);
+
+  //     return respons;
+  //   } else {
+
+  //     return null;
+  //   }
+  // }
+
   void initState() {
     super.initState();
+    //readProfile();
     result = '';
   }
 
@@ -52,7 +67,7 @@ class _searchState extends State<search> {
                     return ListView.builder(
                         itemCount: snapshot.data['data'].length,
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                      //  physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, i) {
                           return Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -64,6 +79,7 @@ class _searchState extends State<search> {
                                                     ['user_Id']
                                                 .toString(),
                                           )));
+                              
                                 },
                                 child: Container(
                                   //  color: Colors.white,

@@ -25,24 +25,24 @@ class _offerState extends State<offer> {
   //   super.initState();
   //   readOffer();
   // }
-  readOffer(orderId) async {
-    setState(() {});
-    var respons = await _curd.postRequst(linkread_allOffer, {
-      //      'userId': id,
-      //'orderId': orderId.toString()
-      'orderId': "10"
-    });
+  // readOffer(orderId) async {
+  //   setState(() {});
+  //   var respons = await _curd.postRequst(linkread_allOffer, {
+  //     //      'userId': id,
+  //     //'orderId': orderId.toString()
+  //     'orderId': "10"
+  //   });
 
-    if (respons["status"] == "success") {
-      print("******************");
-      print(respons["status"]);
-      return respons;
-    } else {
-      print("******************");
-      print(respons["status"]);
-      return null;
-    }
-  }
+  //   if (respons["status"] == "success") {
+  //     print("******************");
+  //     print(respons["status"]);
+  //     return respons;
+  //   } else {
+  //     print("******************");
+  //     print(respons["status"]);
+  //     return null;
+  //   }
+  // }
 
   readOrder() async {
     setState(() {});
@@ -104,181 +104,269 @@ class _offerState extends State<offer> {
       backgroundColor: Colors.white,
       //  backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
       body: Container(
-        child: 
-            FutureBuilder(
-                future: readOrder(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                    if (snapshot.data != null) {
-                      return ListView.builder(
-                          itemCount: snapshot.data['data'].length,
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, i) {
-                            return Padding(
-                              padding: const EdgeInsets.all(0.0),
-                              child: ConstrainedBox(
-                                constraints: const BoxConstraints(
-                                    // maxHeight: 360,
-                                    
-                                    minHeight: 50),
+        child: FutureBuilder(
+            future: readOrder(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data != null) {
+                  return ListView.builder(
+                      itemCount: snapshot.data['data'].length,
+                      shrinkWrap: true,
+                  //    physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, i) {
+                        return Stack(alignment: Alignment.center, children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            child: ConstrainedBox(
+                              constraints: const BoxConstraints(
+                                  // maxHeight: 360,
 
-                                //  height: 270,
-                                // decoration: BoxDecoration(
-                                //   color: (snapshot.data['data'][i]['accept'] ==
-                                //           '1')
-                                //       ? Color.fromARGB(86, 207, 204, 204)
-                                //       : Color.fromARGB(85, 236, 233, 233),
-                                //   //color:(snapshot.data[i]=='0')? Color.fromARGB(87, 240, 9, 9):Color.fromARGB(255, 111, 223, 13)
-                                //   borderRadius: BorderRadius.circular(10.0),
+                                  minHeight: 50),
 
-                                //   ///border: Border.all()
-                                // ),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: (i%2!=0)?Color.fromARGB(255, 246, 246, 247): Colors.white,
-                                      // (snapshot.data['data'][i]['accept'] ==
-                                      //         '1')
-                                      //     ? Color.fromARGB(86, 207, 204, 204)
-                                      //     : Color.fromARGB(85, 236, 233, 233),
-                                      //color:(snapshot.data[i]=='0')? Color.fromARGB(87, 240, 9, 9):Color.fromARGB(255, 111, 223, 13)
-                                      // borderRadius: BorderRadius.circular(10.0),
-                                      border: Border(bottom: BorderSide(width: 0.5))
-                                      ),
-                                  child: Column(
-                                    children: [
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "${snapshot.data['data'][i]['name'].toString()}",
-                                              style: TextStyle(fontSize: 16),
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Text(
-                                              ": الطلب",
-                                              style: TextStyle(fontSize: 16),
-                                            ),
-                                          ]),
-                                      Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            TextButton(
-                                                onPressed: () async {
-                                                  // await openDialog3(
-                                                  //     "${linkServerName}/upload/${snapshot.data['data'][i]['img'].toString()}",
-                                                  //     snapshot.data['data'][i]
-                                                  //             ['name']
-                                                  //         .toString(),
-                                                  //     snapshot.data['data'][i]
-                                                  //             ['classification']
-                                                  //         .toString(),
-                                                  //     snapshot.data['data'][i]
-                                                  //             ['type']
-                                                  //         .toString(),
-                                                  //     snapshot.data['data'][i]
-                                                  //             ['decription']
-                                                  //         .toString());
-                                                  await readOffer(snapshot
-                                                      .data['data'][i]['id']
-                                                      .toString());
-                                                },
-                                                child: Text(
-                                                  "اضغط هنا",
-                                                  style: TextStyle(
-                                                      color: Colors.blue,
-                                                      fontSize: 16),
-                                                )),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Text(
-                                              ": تفاصيل الطلب",
-                                              style: TextStyle(fontSize: 16),
-                                            ),
-                                          ]),
-                                      const Divider(
-                                        color: Colors.black,
-                                        height: 25,
-                                        thickness: 0.5,
-                                        indent: 5,
-                                        endIndent: 5,
-                                      ),
-                                      Material(
-                                        color: Colors.transparent,
-                                        child: InkWell(
-                                            splashColor: Colors.black12,
-                                            onTap: () async {
-                                              //await showModalBottomSheet1();
-                                                       Navigator.push(
-                                                        context,
-                                                        PageRouteBuilder(
-                                                          pageBuilder: (_, __, ___) => showOffers(userID:
-                                                          snapshot.data['data'][i]['userId'].toString(), orderId:snapshot.data['data'][i]['id'].toString(),),
-                                                          transitionDuration: Duration(seconds: 1),
-                                                          transitionsBuilder: (_, a, __, c) => FadeTransition(opacity: a, child: c),
-                                                        ),
-                                                        );
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                  border:
-                                                      Border.all(width: 0.5),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          15)),
+                              //  height: 270,
+                              // decoration: BoxDecoration(
+                              //   color: (snapshot.data['data'][i]['accept'] ==
+                              //           '1')
+                              //       ? Color.fromARGB(86, 207, 204, 204)
+                              //       : Color.fromARGB(85, 236, 233, 233),
+                              //   //color:(snapshot.data[i]=='0')? Color.fromARGB(87, 240, 9, 9):Color.fromARGB(255, 111, 223, 13)
+                              //   borderRadius: BorderRadius.circular(10.0),
+
+                              //   ///border: Border.all()
+                              // ),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: (i % 2 != 0)
+                                        ? Color.fromARGB(255, 246, 246, 247)
+                                        : Color.fromARGB(255, 69, 88, 181),
+                                    // (snapshot.data['data'][i]['accept'] ==
+                                    //         '1')
+                                    //     ? Color.fromARGB(86, 207, 204, 204)
+                                    //     : Color.fromARGB(85, 236, 233, 233),
+                                    //color:(snapshot.data[i]=='0')? Color.fromARGB(87, 240, 9, 9):Color.fromARGB(255, 111, 223, 13)
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    border: (i.isOdd)
+                                        ? Border.all(width: 0.5)
+                                        : Border(bottom: BorderSide(width: 0.5))
+                                    // Border(bottom: BorderSide(width: 0.5))
+                                    ),
+                                child: Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            "${snapshot.data['data'][i]['name'].toString()}",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: (i.isEven)
+                                                    ? Colors.white
+                                                    : Colors.black,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            ": الطلب",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: (i % 2 == 0)
+                                                    ? Colors.white
+                                                    : Colors.black,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                        ]),
+                                    Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          TextButton(
+                                              onPressed: () async {
+                                                await openDialog3(
+                                                    "${linkServerName}/upload/${snapshot.data['data'][i]['img'].toString()}",
+                                                    snapshot.data['data'][i]
+                                                            ['name']
+                                                        .toString(),
+                                                    snapshot.data['data'][i]
+                                                            ['classification']
+                                                        .toString(),
+                                                    snapshot.data['data'][i]
+                                                            ['type']
+                                                        .toString(),
+                                                    snapshot.data['data'][i]
+                                                            ['decription']
+                                                        .toString());
+                                              },
                                               child: Text(
-                                                "      العروض      ",
-                                                style: TextStyle(fontSize: 18),
+                                                "اضغط هنا",
+                                                style: TextStyle(
+                                                    color: (i % 2 == 0)
+                                                        ? Colors.white
+                                                        : Colors.black,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 15),
+                                              )),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            ": تفاصيل الطلب",
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: (i % 2 == 0)
+                                                    ? Colors.white
+                                                    : Colors.black,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          )
+                                        ]),
+                                    Divider(
+                                      color: (i.isEven)
+                                          ? Color.fromARGB(255, 246, 246, 247)
+                                          : Colors.black,
+                                      height: 25,
+                                      thickness: 0.5,
+                                      indent: 5,
+                                      endIndent: 5,
+                                    ),
+                                    Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                          splashColor: Colors.black12,
+                                          onTap: () async {
+                                          
+                                            Navigator.push(
+                                              context,
+                                              PageRouteBuilder(
+                                                pageBuilder: (_, __, ___) =>
+                                                    showOffers(
+                                                  userID: snapshot.data['data']
+                                                          [i]['userId']
+                                                      .toString(),
+                                                  orderId: snapshot.data['data']
+                                                          [i]['id']
+                                                      .toString(),
+                                                ),
+                                                transitionDuration:
+                                                    Duration(seconds: 1),
+                                                transitionsBuilder: (_, a, __,
+                                                        c) =>
+                                                    FadeTransition(
+                                                        opacity: a, child: c),
                                               ),
-                                            )),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      // const Divider(
-                                      //   color: Colors.black,
-                                      //   height: 15,
-                                      //   thickness: 0.5,
-                                      //   indent: 5,
-                                      // //  endIndent: 5,
-                                      // ),
-                                    ],
-                                  ),
+                                            );
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                border: Border.all(
+                                                    width: 0.5,
+                                                    color: (i.isEven)
+                                                        ? Colors.white
+                                                        : Colors.black),
+                                                borderRadius:
+                                                    BorderRadius.circular(15)),
+                                            child: Text(
+                                              "      العروض      ",
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                color: (i.isEven)
+                                                    ? Color.fromRGBO(
+                                                        69, 88, 181, 1)
+                                                    : Colors.black,
+                                              ),
+                                            ),
+                                          )),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    // const Divider(
+                                    //   color: Colors.black,
+                                    //   height: 15,
+                                    //   thickness: 0.5,
+                                    //   indent: 5,
+                                    // //  endIndent: 5,
+                                    // ),
+                                  ],
                                 ),
                               ),
-                            );
-                            //     card(name: '${snapshot.data['data'][i]['note_title'].toString()}', image: '${snapshot.data['data'][i]['note_image'].toString()}', price: '${snapshot.data['data'][i]['price'].toString()}', id: '${snapshot.data['data'][i]['note_id'].toString()}', description: '${snapshot.data['data'][i]['note_content'].toString()}', phone: '${snapshot.data['data'][i]['phone'].toString()}', location: '${snapshot.data['data'][i]['location'].toString()}', username: '${snapshot.data['data'][i]['username'].toString()}', locationText: '${snapshot.data['data'][i]['locationText'].toString()}', email: '${snapshot.data['data'][i]['email'].toString()}', token: '${snapshot.data['data'][i]['token'].toString()}' , );
-                          });
-                    }
-                  }
+                            ),
+                          ),
+                          Container(
+                            height: 200,
+                          ),
+                          Positioned(
+                            top: 0,
+                            //  bottom: 140,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: (i.isOdd)
+                                      ? Border.all(width: 0.6)
+                                      : Border.all(width: 0)),
+                              child: CircleAvatar(
+                                radius: 35,
+                                backgroundColor: (i.isEven)
+                                    ? Color.fromARGB(255, 77, 97, 194)
+                                    : Colors.white,
+                                child: CircleAvatar(
+                                    radius: 30,
+                                    backgroundColor: Colors.white,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(3.0),
+                                      child: Image(
+                                        image:
+                                            Image.asset('images/i5.jpeg').image,
+                                      ),
+                                    )
+                                    //Text("${i+1}"),
+                                    ),
+                              ),
+                            ),
+                          ),
+                        ]);
+                      });
+                }
+              }
 
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return   Center(
-                          child: Lottie.asset(
-                              "assets/Animation - 1706023859153.json"));
-                  }
-                  return Column(
-                  children: [
-                    Container(
-                        decoration: BoxDecoration(),
-                        child: Image(
-                          image: Image.asset('images/i2.jpg').image,
-                        )),
-                        Center(
-                          child: Text("لاتوجد بيانات حاليا",style: TextStyle(fontSize: 18 ,color: Color.fromARGB(255, 69, 88, 181),),),
-                        )
-                  ],
-                );
-                }),
-      
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                    child:
+                        Lottie.asset("assets/Animation - 1706023859153.json"));
+              }
+              return Column(
+                children: [
+                  Container(
+                      decoration: BoxDecoration(),
+                      child: Image(
+                        image: Image.asset('images/i2.jpg').image,
+                      )),
+                  Center(
+                    child: Text(
+                      "لاتوجد بيانات حاليا",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Color.fromARGB(255, 69, 88, 181),
+                      ),
+                    ),
+                  )
+                ],
+              );
+            }),
       ),
     );
   }
@@ -296,6 +384,7 @@ class _offerState extends State<offer> {
         context: context,
         builder: (context) => AlertDialog(
           backgroundColor: Colors.white,
+          surfaceTintColor: Colors.transparent,
           content: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Column(
@@ -305,10 +394,10 @@ class _offerState extends State<offer> {
                 Center(
                     child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.black,
+                    color: Color.fromARGB(255, 69, 88, 181),
                     border: Border.all(
                       width: 2,
-                      color: Colors.black,
+                      color: Color.fromARGB(255, 69, 88, 181),
                     ),
                     borderRadius: BorderRadius.circular(15.0),
                   ),
@@ -321,11 +410,14 @@ class _offerState extends State<offer> {
                       aspectRatio: 0.5,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        child: Image(
-                            //  width: MediaQuery.of(context).size.width * 0.95,height:MediaQuery.of(context).size.height * 0.20 ,
-                            image: Image.network(
-                          "${img}",
-                        ).image),
+                          child: Image(
+                              //  width: MediaQuery.of(context).size.width * 0.95,height:MediaQuery.of(context).size.height * 0.20 ,
+                              image: (img == "https://scrap-app.online/scrap/upload/")
+                                  ? Image.asset("images/i1.jpeg").image
+                                  : Image.network(
+                                      "${img}",
+                                    ).image),
+                      
                       ),
                     ),
                   ),
@@ -334,36 +426,39 @@ class _offerState extends State<offer> {
                   height: 10,
                 ),
                 Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  Text(name),
+                  Text(name,style: TextStyle(color: Colors.black54,fontSize: 16),),
                   SizedBox(
                     width: 5,
                   ),
-                  Text(": الطلب")
+                  Text(
+                    ": الطلب",
+                    style: TextStyle(color: Color.fromARGB(255, 69, 88, 181),fontSize: 16),
+                  )
                 ]),
                 SizedBox(
                   height: 10,
                 ),
                 Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  Text(classification),
+                  Text(classification,style: TextStyle(color: Colors.black54),),
                   SizedBox(
                     width: 5,
                   ),
-                  Text(": التصنيف")
+                  Text(": التصنيف",style: TextStyle(color: Color.fromARGB(255, 69, 88, 181),fontSize: 16 ),)
                 ]),
                 SizedBox(
                   height: 10,
                 ),
                 Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  Text(type),
+                  Text(type,style: TextStyle(color: Colors.black54),),
                   SizedBox(
                     width: 5,
                   ),
-                  Text(": النوع")
+                  Text(": النوع",style: TextStyle(color:  Color.fromARGB(255, 69, 88, 181),fontSize: 16),)
                 ]),
                 SizedBox(
                   height: 10,
                 ),
-                Text(": الوصف"),
+                Text(": الوصف",style: TextStyle(color:  Color.fromARGB(255, 69, 88, 181)),),
                 SizedBox(
                   height: 10,
                 ),
@@ -375,14 +470,14 @@ class _offerState extends State<offer> {
                         decoration: BoxDecoration(
                           border: Border.all(
                             width: 2,
-                            color: Colors.black,
+                            color:  Color.fromARGB(255, 69, 88, 181),
                           ),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            discreption,
+                            discreption,style: TextStyle(color: Colors.black54),
                             textAlign: TextAlign.right,
                           ),
                         )),
@@ -402,6 +497,8 @@ class _offerState extends State<offer> {
         barrierDismissible: false,
         context: context,
         builder: (context) => AlertDialog(
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.transparent,
           title: Text(
             "${title}",
             style:
@@ -470,65 +567,4 @@ class _offerState extends State<offer> {
           ),
         ),
       );
-  Future showModalBottomSheet1() {
-    return showModalBottomSheet(
-        context: context,
-
-        builder: (BuildContext context) => Container(
-              child:
-              
-                FutureBuilder(
-                    future: readOrder(),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (snapshot.hasData) {
-                        if (snapshot.data != null) {
-                          return ListView.builder(
-                              itemCount: snapshot.data['data'].length,
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, i) {
-                                return Text("");
-
-                                //   card(name: '${snapshot.data['data'][i]['note_title'].toString()}', image: '${snapshot.data['data'][i]['note_image'].toString()}', price: '${snapshot.data['data'][i]['price'].toString()}', id: '${snapshot.data['data'][i]['note_id'].toString()}', description: '${snapshot.data['data'][i]['note_content'].toString()}', phone: '${snapshot.data['data'][i]['phone'].toString()}', location: '${snapshot.data['data'][i]['location'].toString()}', username: '${snapshot.data['data'][i]['username'].toString()}', locationText: '${snapshot.data['data'][i]['locationText'].toString()}', email: '${snapshot.data['data'][i]['email'].toString()}', token: '${snapshot.data['data'][i]['token'].toString()}' , );
-                              });
-                        }
-                      }
-
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Padding(
-                          padding: const EdgeInsets.all(18.0),
-                          child: Center(
-                            child: Text(
-                              "loading ...",
-                              style: TextStyle(
-                                  color:
-                                      sharedPref.getBool("mode") ?? "" == true
-                                          ? Colors.white
-                                          : Colors.black54),
-                            ),
-                          ),
-                        );
-                      }
-                      return Center(
-                        child: Text(
-                          "لايوجد ماتبحث عنه ...",
-                          style: TextStyle(
-                              color: sharedPref.getBool("mode") ?? "" == true
-                                  ? Colors.white
-                                  : Colors.black54),
-                        ),
-                      );
-                    })
-              // ]),
-              //     Navigator.push(
-              // context,
-              // PageRouteBuilder(
-              //   pageBuilder: (_, __, ___) => showOffers(userID:
-              //   snapshot.data['data'][i]['userId'].toString(), orderId:snapshot.data['data'][i]['id'].toString(),),
-              //   transitionDuration: Duration(seconds: 1),
-              //   transitionsBuilder: (_, a, __, c) => FadeTransition(opacity: a, child: c),
-              // ),
-              //  );
-            ));
-  }
 }

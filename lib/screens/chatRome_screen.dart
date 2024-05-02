@@ -9,11 +9,12 @@ class chatRome extends StatefulWidget {
   final String senderId;
   final String receiverId;
   final String receiverName;
+  final String senderName;
   const chatRome({
     super.key,
     required this.senderId,
     required this.receiverId,
-    required this.receiverName,
+    required this.receiverName, required this.senderName,
     //required this.id2
   });
 
@@ -48,8 +49,7 @@ class _chatRomeState extends State<chatRome> {
 
   addChatInfo2() async {
     var respons = await _curd.postRequst(linkchate, {
-
-      "Sender":widget.senderId,
+      "Sender": widget.senderId,
       "Receiver": widget.receiverId,
       "SenderToken": sharedPref.getString("token") ?? "",
       "senderName": sharedPref.getString("username") ?? "",
@@ -81,7 +81,10 @@ class _chatRomeState extends State<chatRome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Color.fromRGBO(69, 88, 181, 1),
+        foregroundColor: Colors.white,
+        title: Text("دردشة"),
+        centerTitle: true,
       ),
       body: SafeArea(
           child: Column(
@@ -130,7 +133,7 @@ class _chatRomeState extends State<chatRome> {
           Container(
             decoration: BoxDecoration(
                 border: Border(
-              top: BorderSide(color: Colors.black, width: 2),
+              top: BorderSide(color:Color.fromRGBO(69, 88, 181, 1), width: 2),
             )),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -150,37 +153,26 @@ class _chatRomeState extends State<chatRome> {
                 ),
                 TextButton(
                     onPressed: () async {
-                      messageTextControlr.clear();
-                      firstor
-                          .collection("chats")
-                          .doc(widget.senderId.toString())
-                          .collection(
-                              //sharedPref.getString("id") ?? ""
-                              widget.receiverId.toString())
-                          .add({
-                        "text": masseageText,
-                        "sender": sharedPref.getString("username") ?? "",
-                        "time": FieldValue.serverTimestamp()
-                      });
-                    (widget.senderId == sharedPref.getString("id"))?
-                      await addChatInfo()
-                      :  await addChatInfo2();
-                      //88888
-                      // firstor
-                      //     .collection("chats")
-                      //     .doc(widget.id)
-                      //     .coc llection(sharedPref.getString("username") ?? "")
-                      //     .add({
-                      //   "text": masseageText,
-                      //   "sender": sharedPref.getString("username") ?? ""
-                      // });
-                      //     firstor.collection("chats")
-                      //     .doc(sharedPref.getString("username") ?? "")
-                      //     .collection(widget.id)
-                      //     .add({
-                      //   "text": masseageText,
-                      //   "sender": sharedPref.getString("username") ?? ""
-                      // });
+                    
+                      if (messageTextControlr.text == "") {
+
+                      } else {
+                        messageTextControlr.clear();
+                        firstor
+                            .collection("chats")
+                            .doc(widget.senderId.toString())
+                            .collection(
+                                //sharedPref.getString("id") ?? ""
+                                widget.receiverId.toString())
+                            .add({
+                          "text": masseageText,
+                          "sender": sharedPref.getString("username") ?? "",
+                          "time": FieldValue.serverTimestamp()
+                        });
+                        (widget.senderId == sharedPref.getString("id"))
+                            ? await addChatInfo()
+                            : await addChatInfo2();
+                      }
                     },
                     child: Text(
                       "إرسال",
@@ -230,13 +222,13 @@ class _messagLineState extends State<messagLine> {
                   ),
                   bottomRight: Radius.circular(30)),
           color: (sharedPref.getString("username") == widget.sender)
-              ? Colors.black54
-              : Color.fromARGB(255, 150, 145, 145),
+              ?  Color.fromRGBO(69, 88, 181, 1)
+              :  Color.fromRGBO(180, 194, 241, 1),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             child: Text(
-              '${widget.text} ',
-              style: TextStyle(fontSize: 15, color: Colors.white),
+              '${widget.text}',
+              style: TextStyle(fontSize: 15, color:(sharedPref.getString("username") == widget.sender)? Colors.white:const Color.fromARGB(158, 0, 0, 0)),
             ),
           ),
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:scrap_app/component/crud.dart';
 import 'package:scrap_app/constant/linkApi.dart';
 import 'package:scrap_app/main.dart';
@@ -66,7 +67,8 @@ class _profilePageState extends State<profilePage> {
   }
 
   readProfile() async {
-    var respons = await _curd.postRequst(linkread_profile, {'userId': widget.id.toString()});
+    var respons = await _curd
+        .postRequst(linkread_profile, {'userId': widget.id.toString()});
 
     if (respons["status"] == "success") {
       return respons;
@@ -74,6 +76,7 @@ class _profilePageState extends State<profilePage> {
       return null;
     }
   }
+
   read_from_Inventory() async {
     var respons = await _curd.postRequst(linkread_Inventory, {
       "userId": widget.id.toString(),
@@ -85,6 +88,7 @@ class _profilePageState extends State<profilePage> {
       return null;
     }
   }
+
   void initState() {
     super.initState();
 
@@ -92,7 +96,9 @@ class _profilePageState extends State<profilePage> {
   }
 
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Container(
         child: ListView(
           children: [
@@ -113,17 +119,22 @@ class _profilePageState extends State<profilePage> {
                                   children: [
                                     Center(
                                       child: CircleAvatar(
-                                        backgroundImage: (snapshot.data['data']
-                                                        [i]['img']
-                                                    .toString() !=
-                                                "")
-                                            ? Image.network(
-                                                "${linkServerName}/upload/${snapshot.data['data'][i]['img'].toString()}",
-                                                fit: BoxFit.cover,
-                                              ).image
-                                            : Image.asset('images/i1.jpeg')
-                                                .image,
-                                        radius: 80,
+                                        backgroundColor:
+                                            Color.fromARGB(255, 69, 88, 181),
+                                        radius: 85,
+                                        child: CircleAvatar(
+                                          backgroundImage: (snapshot
+                                                      .data['data'][i]['img']
+                                                      .toString() !=
+                                                  "")
+                                              ? Image.network(
+                                                  "${linkServerName}/upload/${snapshot.data['data'][i]['img'].toString()}",
+                                                  fit: BoxFit.cover,
+                                                ).image
+                                              : Image.asset('images/i1.jpeg')
+                                                  .image,
+                                          radius: 80,
+                                        ),
                                       ),
                                     ),
                                     SizedBox(
@@ -134,7 +145,10 @@ class _profilePageState extends State<profilePage> {
                                       "${snapshot.data['data'][i]['name'].toString()}",
                                       style: TextStyle(
                                           fontFamily: AutofillHints.familyName,
-                                          fontSize: 25),
+                                          color:
+                                              Color.fromARGB(255, 69, 88, 181),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 23),
                                     )),
                                     SizedBox(
                                       height: 10,
@@ -142,37 +156,38 @@ class _profilePageState extends State<profilePage> {
                                     isLoding == true
                                         ? CircularProgressIndicator()
                                         : (respon.isEmpty == true)
-                                            ? 
-                                            
-                                            RatingBarr(
+                                            ? RatingBarr(
                                                 rating: 0, ratingCount: 0)
                                             : RatingBarr(
-                                              
-                                                rating: respon[1] / 1.0,                                              
+                                                rating: respon[1] / 1.0,
                                                 ratingCount: respon[0],
-                                                
                                               ),
-                                              
                                     (_isButtonDisabled == false)
-                                        ?  
-                                        
-                                         Padding(
-                                           padding: const EdgeInsets.only(top: 15),
-                                           child: MaterialButton(
-                                                                                   shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(90.0),
-                                              side: BorderSide(color: Colors.white)
+                                        ? Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 15),
+                                            child: MaterialButton(
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          90.0),
+                                                  side: BorderSide(
+                                                      color: Colors.white)),
+                                              color: Color.fromARGB(
+                                                  255, 69, 88, 181),
+                                              onPressed: () {
+                                                openDialog1("! تقيمك");
+                                              },
+                                              child: Text(
+                                                "تقييم",
+                                                style: TextStyle(
+                                                    fontFamily: "ReadexPro",
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white,
+                                                    fontSize: 18),
+                                              ),
                                             ),
-                                                                                   color: Colors.redAccent,
-                                                                                   onPressed: (){
-                                                                                   openDialog1("! تقيمك");
-                                            },
-                                                                                 child:
-                                           
-                                                                                   Text("تقييم",style: TextStyle(fontFamily: "ReadexPro",fontWeight: FontWeight.bold,color: Colors.white,fontSize: 18),),
-                                           
-                                                                                 ),
-                                         )
+                                          )
                                         : Text(
                                             "تم التقييم",
                                             style: TextStyle(
@@ -181,135 +196,204 @@ class _profilePageState extends State<profilePage> {
                                                 fontFamily: "ReadexPro"),
                                             textAlign: TextAlign.center,
                                           ),
-                                        Padding(
-                                           padding: const EdgeInsets.only(top: 8),
-                                           child: MaterialButton(
-                                                                                   shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(90.0),
-                                              side: BorderSide(color: Colors.white)
-                                            ),
-                                                                                   color: Colors.green,
-                                                                                   onPressed: (){
-                                                                                   Navigator.of(context).push(MaterialPageRoute(
-                                                                                  builder: (context) => chatRome(senderId:  sharedPref.getString("id") ?? ""   , receiverId:snapshot.data['data'][i]['user_Id'].toString()
-                                                                                , receiverName: snapshot.data['data'][i]['name']
-                                                                                                        .toString(), )));
-                                                                                                    },
-                                                                                        child:
-                                           
-                                                                                   Text("دردشة",style: TextStyle(fontFamily: "ReadexPro",fontWeight: FontWeight.bold,color: Colors.white,fontSize: 18),),
-                                           
-                                                                                 ),
-                                         ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8),
+                                      child: MaterialButton(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(90.0),
+                                            side: BorderSide(
+                                                color: Color.fromARGB(
+                                                    255, 69, 88, 181))),
+                                        color: Colors.white,
+                                        onPressed: () {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      chatRome(
+                                                        senderId: sharedPref
+                                                                .getString(
+                                                                    "id") ??
+                                                            "",
+                                                        receiverId: snapshot
+                                                            .data['data'][i]
+                                                                ['user_Id']
+                                                            .toString(),
+                                                        receiverName: snapshot
+                                                            .data['data'][i]
+                                                                ['name']
+                                                            .toString(),
+                                                        senderName: '',
+                                                      )));
+                                        },
+                                        child: Text(
+                                          "دردشة",
+                                          style: TextStyle(
+                                              fontFamily: "ReadexPro",
+                                              fontWeight: FontWeight.bold,
+                                              color: Color.fromARGB(
+                                                  255, 69, 88, 181),
+                                              fontSize: 18),
+                                        ),
+                                      ),
+                                    ),
                                     const Divider(
-                                          color: Colors.black,
-                                          height: 25,
-                                          thickness: 2,
-                                          indent: 5,
-                                          endIndent: 5,
+                                      color: Color.fromARGB(255, 69, 88, 181),
+                                      height: 25,
+                                      thickness: 2,
+                                      indent: 5,
+                                      endIndent: 5,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          ": المخزون",
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              color: Color.fromARGB(
+                                                  255, 69, 88, 181)),
                                         ),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.end,
-                                          children: [            
-                                            Text(": المخزون",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-                                              SizedBox(width: 5,),
-                                          ],
+                                        SizedBox(
+                                          width: 5,
                                         ),
-                                        FutureBuilder(
-          future: read_from_Inventory(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              if (snapshot.data != null) {
-                return ListView.builder(
-                    itemCount: snapshot.data['data'].length,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, i) {
-                      return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            //  color: Colors.white,
-                            decoration: BoxDecoration(
-                              border:
-                                  Border.all(color: Colors.black, width: 1.5),
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  
-                                  SizedBox(
-                                    width: 50,
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        ": التصنيف",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        snapshot.data['data'][i]
-                                                ['classification']
-                                            .toString(),
-                                        style: TextStyle(fontSize: 16),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    width: 50,
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        ": النوع",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        snapshot.data['data'][i]['type']
-                                            .toString(),
-                                        style: TextStyle(fontSize: 16),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ));
-                    });
-              }
-            }
+                                      ],
+                                    ),
+                                    FutureBuilder(
+                                        future: read_from_Inventory(),
+                                        builder: (BuildContext context,
+                                            AsyncSnapshot snapshot) {
+                                          if (snapshot.hasData) {
+                                            if (snapshot.data != null) {
+                                              return ListView.builder(
+                                                  itemCount: snapshot
+                                                      .data['data'].length,
+                                                  shrinkWrap: true,
+                                                  physics:
+                                                      NeverScrollableScrollPhysics(),
+                                                  itemBuilder: (context, i) {
+                                                    return Stack(children: [
+                                                      Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Container(
+                                                            //  color: Colors.white,
+                                                            height: 80,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              border: Border.all(
+                                                                  color: Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          69,
+                                                                          88,
+                                                                          181),
+                                                                  width: 1.5),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10.0),
+                                                            ),
+                                                          )),
+                                                      Positioned(
+                                                        top: 20,
+                                                        right: 50,
+                                                        child: Container(
+                                                          width: 100,
+                                                          child: Column(
+                                                            children: [
+                                                              Text(
+                                                                ": النوع",
+                                                                style: TextStyle(
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            69,
+                                                                            88,
+                                                                            181),
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontSize:
+                                                                        16),
+                                                              ),
+                                                              SizedBox(
+                                                                height: 10,
+                                                              ),
+                                                              Text(
+                                                                snapshot.data[
+                                                                        'data']
+                                                                        [i]
+                                                                        ['type']
+                                                                    .toString(),
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        16),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Positioned(
+                                                        top: 20,
+                                                        left: 60,
+                                                        child: Container(
+                                                          width: 150,
+                                                          child: Column(
+                                                            children: [
+                                                              Text(
+                                                                ": التصنيف",
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color: Color
+                                                                        .fromARGB(
+                                                                            255,
+                                                                            69,
+                                                                            88,
+                                                                            181),
+                                                                    fontSize:
+                                                                        16),
+                                                              ),
+                                                              SizedBox(
+                                                                height: 10,
+                                                              ),
+                                                              Text(
+                                                                snapshot.data[
+                                                                        'data']
+                                                                        [i][
+                                                                        'classification']
+                                                                    .toString(),
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        16),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ]);
+                                                  });
+                                            }
+                                          }
 
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Center(child: CircularProgressIndicator()),
-              );
-            }
-            return Center(
-              child: Text(
-                "لايوجد",
-                style: TextStyle(
-                    color: sharedPref.getBool("mode") ?? "" == true
-                        ? Colors.white
-                        : Colors.black54),
-              ),
-            );
-          }),
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return Center(
+                      child: Lottie.asset(
+                          "assets/Animation - 1706023859153.json"));
+                                          }
+                                          return Center(
+                                            child: Text(
+                                              "لايوجد",
+                                              style: TextStyle(
+                                                  color:  Color.fromARGB(255, 69, 88, 181)),
+                                            ),
+                                          );
+                                        }),
                                   ]),
                             );
                             //     card(name: '${snapshot.data['data'][i]['note_title'].toString()}', image: '${snapshot.data['data'][i]['note_image'].toString()}', price: '${snapshot.data['data'][i]['price'].toString()}', id: '${snapshot.data['data'][i]['note_id'].toString()}', description: '${snapshot.data['data'][i]['note_content'].toString()}', phone: '${snapshot.data['data'][i]['phone'].toString()}', location: '${snapshot.data['data'][i]['location'].toString()}', username: '${snapshot.data['data'][i]['username'].toString()}', locationText: '${snapshot.data['data'][i]['locationText'].toString()}', email: '${snapshot.data['data'][i]['email'].toString()}', token: '${snapshot.data['data'][i]['token'].toString()}' , );
@@ -318,28 +402,28 @@ class _profilePageState extends State<profilePage> {
                   }
 
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Padding(
-                      padding: const EdgeInsets.all(18.0),
-                      child: Center(
-                        child: Text(
-                          "loading ...",
-                          style: TextStyle(
-                              color: sharedPref.getBool("mode") ?? "" == true
-                                  ? Colors.white
-                                  : Colors.black54),
-                        ),
-                      ),
-                    );
+                    return Center(
+                      child: Lottie.asset(
+                          "assets/Animation - 1706023859153.json"));
                   }
-                  return Center(
+                  return Column(
+                children: [
+                  Container(
+                      decoration: BoxDecoration(),
+                      child: Image(
+                        image: Image.asset('images/i2.jpg').image,
+                      )),
+                  Center(
                     child: Text(
-                      "لايوجد ماتبحث عنه ...",
+                      "لاتوجد بيانات حاليا",
                       style: TextStyle(
-                          color: sharedPref.getBool("mode") ?? "" == true
-                              ? Colors.white
-                              : Colors.black54),
+                        fontSize: 18,
+                        color: Color.fromARGB(255, 69, 88, 181),
+                      ),
                     ),
-                  );
+                  )
+                ],
+              );
                 }),
           ],
         ),
@@ -353,6 +437,8 @@ class _profilePageState extends State<profilePage> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
+            backgroundColor: Colors.white,
+            surfaceTintColor: Colors.transparent,
             title: Center(
               child: Text(
                 "${title}",
@@ -375,7 +461,7 @@ class _profilePageState extends State<profilePage> {
                         itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                         itemBuilder: (context, _) => Icon(
                           Icons.star,
-                          color: Colors.amber,
+                          color: Color.fromARGB(255, 69, 88, 181),
                           size: 20,
                         ),
                         onRatingUpdate: (rating) {
@@ -404,7 +490,6 @@ class _profilePageState extends State<profilePage> {
                                   fontSize: 18),
                             ),
                           ),
-                        
                           SizedBox(
                             width: 20,
                           ),
@@ -413,7 +498,7 @@ class _profilePageState extends State<profilePage> {
                               await addRating();
                               _isButtonDisabled = true;
                               setState(() {});
-                            Navigator.pop(context);
+                              Navigator.pop(context);
                             },
                             child: Text(
                               "حفظ",
@@ -500,7 +585,8 @@ class RatingBarr extends StatelessWidget {
 
     for (int i = 0; i < 5; i++) {
       if (i < realNumber) {
-        _starList.add(Icon(Icons.star, color: Colors.amber, size: size));
+        _starList.add(Icon(Icons.star,
+            color: Color.fromARGB(255, 69, 88, 181), size: size));
       } else if (i == realNumber) {
         _starList.add(SizedBox(
           height: size,
@@ -508,7 +594,8 @@ class RatingBarr extends StatelessWidget {
           child: Stack(
             fit: StackFit.expand,
             children: [
-              Icon(Icons.star, color: Colors.amber, size: size),
+              Icon(Icons.star,
+                  color: Color.fromARGB(255, 69, 88, 181), size: size),
               ClipRect(
                 clipper: _Clipper(part: partNumber),
                 child: Icon(Icons.star, color: Colors.grey, size: size),

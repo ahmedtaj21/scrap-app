@@ -74,6 +74,7 @@ class _signupState extends State<signup> {
   TextEditingController phone = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController password2 = TextEditingController();
+  String dropdownValue2 = 'مستخدم';
 
   signup() async {
     isLoding = true;
@@ -86,6 +87,7 @@ class _signupState extends State<signup> {
           "email": email.text.trim(),
           "password": password.text.trim(),
           "phone": phone.text.trim(),
+          "user_type":dropdownValue2
         });
         if (respons == null) {
           Navigator.of(context).push(MaterialPageRoute(
@@ -115,7 +117,7 @@ class _signupState extends State<signup> {
     return WillPopScope(
       onWillPop: () async => await openDialog2("هل ترغب بلخروج حقا ؟"),
       child: Scaffold(
-        //backgroundColor:  sharedPref.getBool("mode") ?? ""==true? darktheam.primaryColor:Colors.white,
+        backgroundColor:  Colors.white,
         body: (isLoding == true)
             ? Center(
                 child: CircularProgressIndicator(),
@@ -132,7 +134,7 @@ class _signupState extends State<signup> {
                         scrollDirection: Axis.vertical,
                         child: Column(
                           children: [
-                            Image.asset("images/i4.jpeg"),
+                            Image.asset("images/i6.jpg"),
                             // sharedPref.getBool("mode") ?? ""==true? Image.asset("images/i16.jpg") :Image.asset("images/i15.jpg"),
                             //Text("افراحي",style: TextStyle(color: Colors.red,fontSize: 40,fontWeight: FontWeight.bold,fontFamily: "ReadexPro"),),
 
@@ -201,7 +203,60 @@ class _signupState extends State<signup> {
                               formChoose: 4,
                               labelText: 'تأكيد الرقم السري',
                             ),
-
+                            SizedBox(height: 20,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                
+                                Container(
+                                  width: 200,
+                                  decoration: BoxDecoration(
+                                  color: Colors.white,
+                                   borderRadius: BorderRadius.circular(10),
+                                   border: Border.all(color:Colors.black87 )
+                                   ),
+                                  child: Center(
+                                    child: DropdownButton<String>(
+                                        // Step 3.
+                                        hint: Text(
+                                          "${dropdownValue2}",
+                                          style: TextStyle(
+                                              color:
+                                                  Color.fromARGB(255, 69, 88, 181)),
+                                        ),
+                                      
+                                        //  value: dropdownValue3,
+                                        dropdownColor: Color.fromARGB(255, 69, 88, 181),
+                                        // Step 4.
+                                    
+                                        items: <String>[
+                                          'مستخدم',
+                                          'صاحب تشليح',
+                                        ].map<DropdownMenuItem<String>>((String value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Text(
+                                              value,
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: Colors.white),
+                                            ),
+                                          );
+                                        }).toList(),
+                                    
+                                        onChanged: (String? newValue) {
+                                          setState(() {
+                                            dropdownValue2 = newValue!;
+                                          });
+                                          (context as Element).reassemble();
+                                        },
+                                      ),
+                                  ),
+                                ),
+                                SizedBox(width: 8,),
+                                Text(": نوع الحساب",style: TextStyle(fontSize: 16,color: Color.fromARGB(255, 69, 88, 181)),),
+                              ],
+                            ),
                             SizedBox(
                               height: 7,
                             ),

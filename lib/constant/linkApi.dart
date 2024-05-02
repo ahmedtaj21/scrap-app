@@ -58,3 +58,7 @@ const String linkread_allAcount= "$linkServerName/app/read_allAcount.php";
 const String linkchate= "$linkServerName/app/chate.php";
 
 const String linkread_chat_info= "$linkServerName/app/read_chat_info.php";
+
+const String linkreed_creat_profile= "$linkServerName/app/reed_creat_profile.php";
+
+const String linkupdat_parts= "$linkServerName/app/updat_parts.php";

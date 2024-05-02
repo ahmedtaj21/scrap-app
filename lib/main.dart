@@ -1,32 +1,37 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:scrap_app/component/crud.dart';
 import 'package:scrap_app/constant/firbase_api.dart';
+import 'package:scrap_app/constant/linkApi.dart';
 import 'package:scrap_app/screens/chatRome_screen.dart';
+import 'package:scrap_app/screens/home2_screen.dart';
 import 'package:scrap_app/screens/home_screen.dart';
 import 'package:scrap_app/screens/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
-
-
 
 late SharedPreferences sharedPref;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   sharedPref = await SharedPreferences.getInstance();
- await Firebase.initializeApp(
-   //options: DefaultF
-  );
+  await Firebase.initializeApp(
+      //options: DefaultF
+      );
+
   await FirbaseApi().initNotfy();
-
+  await FirbaseApi().exsistProfile();
   //await FirbaseApi().notfication();
-
+//await FirbaseApi().readProfile();
+  //sharedPref.setString("profil", '');
   runApp(const MyApp());
 }
+
 // void main() {
 //   runApp(const MyApp());
 //}
+// Curd _curd = Curd();
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -36,34 +41,28 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-    //  title: 'Flutter Demo',
+      //  title: 'Flutter Demo',
       theme: ThemeData(
-      // colorScheme: ColorScheme.fromSwatch()
-      //         .copyWith(secondary: Colors.white),
+        // colorScheme: ColorScheme.fromSwatch()
+        //         .copyWith(secondary: Colors.white),
         //colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
-      home:AnimatedSplashScreen(
-        
-      splash:
-             Lottie.asset(
-                                    "assets/Animation - 1705936500635.json"),
-        
-                               nextScreen: home(),
-      // Image.asset("images/i22.png"),
-      
-      duration:3000 ,
-      //backgroundColor: Colors.white,
+      home: AnimatedSplashScreen(
+        splash: Lottie.asset("assets/Animation - 1705936500635.json"),
 
-     splashTransition: SplashTransition.scaleTransition,
-     
-      
-      
-       
-  
+        nextScreen: (sharedPref.getString("user_type") == 'صاحب تشليح')
+            ? home2()
+            : home(index: 2,),
+        // Image.asset("images/i22.png"),
+
+        duration: 3000,
+        //backgroundColor: Colors.white,
+
+        splashTransition: SplashTransition.scaleTransition,
       ),
       //chatRome()
-       //home(),
+      //home(),
     );
   }
 }

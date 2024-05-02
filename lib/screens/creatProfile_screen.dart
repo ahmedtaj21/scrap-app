@@ -18,7 +18,7 @@ class creatProfile extends StatefulWidget {
 
 class _creatProfileState extends State<creatProfile> {
   Curd _curd = Curd();
-
+//لازم تسوي فنكشن للي بدون صورة
   sendProfile() async {
     isLoding = true;
     setState(() {});
@@ -27,16 +27,17 @@ class _creatProfileState extends State<creatProfile> {
         linkcreat_profile,
         {
           "name": name.text.trim().toString(),
-          "type": dropdownValue2.toString(),
-          "user_id": sharedPref.getString("id") ?? "",
+          "type": sharedPref.getString("user_type") ?? "",
+          "user_Id": sharedPref.getString("id") ?? "",
         },
         myfole!);
 
     if (respons["status"] == "success") {
-      isLoding = true;
+      isLoding = false;
       setState(() {});
-      sharedPref.setString("profil", "1");
-      Navigator.pop(context);
+      Navigator.of(context).push(MaterialPageRoute(
+                                     builder: (context) => MyApp()));
+    print(respons["status"]);
     } else {
       isLoding = false;
 
@@ -48,7 +49,6 @@ class _creatProfileState extends State<creatProfile> {
   GlobalKey<FormState> formstate = GlobalKey();
   TextEditingController name = TextEditingController();
   File? myfole;
-  String dropdownValue2 = 'الحساب';
   bool isLoding = false;
   @override
   Widget build(BuildContext context) {
@@ -80,13 +80,17 @@ class _creatProfileState extends State<creatProfile> {
                               (context as Element).reassemble();
                             },
                             child: CircleAvatar(
-                              backgroundImage: (myfole != null)
-                                  ? Image.file(
-                                      myfole!,
-                                      fit: BoxFit.cover,
-                                    ).image
-                                  : Image.asset('images/i1.jpeg').image,
-                              radius: 80,
+                              radius: 85,
+                              backgroundColor: Color.fromARGB(255, 69, 88, 181),
+                              child: CircleAvatar(
+                                backgroundImage: (myfole != null)
+                                    ? Image.file(
+                                        myfole!,
+                                        fit: BoxFit.cover,
+                                      ).image
+                                    : Image.asset('images/i1.jpeg').image,
+                                radius: 80,
+                              ),
                             ),
                           ),
                           IconButton(
@@ -165,45 +169,49 @@ class _creatProfileState extends State<creatProfile> {
                               SizedBox(
                                 width: 5,
                               ),
-                              DropdownButton<String>(
-                                // Step 3.
-                                hint: Text(
-                                  "${dropdownValue2}",
-                                  style: TextStyle(
-                                      color:
-                                          Color.fromARGB(255, 144, 144, 144)),
-                                ),
-                                //  value: dropdownValue3,
-                                dropdownColor: Colors.white,
-                                // Step 4.
+                              Text(sharedPref.getString("user_type") ?? "" ,  style: TextStyle(
+                                                        color: Colors.black54,
+                                                        fontSize: 15)),
+                              // DropdownButton<String>(
+                              //   // Step 3.
+                              //   hint: Text(
+                              //     "${dropdownValue2}",
+                              //     style: TextStyle(
+                              //         color:
+                              //             Color.fromARGB(255, 69, 88, 181)),
+                              //   ),
+                              //   //  value: dropdownValue3,
+                              //   dropdownColor: Colors.white,
+                              //   // Step 4.
 
-                                items: <String>[
-                                  'مستخدم',
-                                  'صاحب تشليح',
-                                ].map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(
-                                      value,
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          color: Color.fromARGB(
-                                              255, 144, 144, 144)),
-                                    ),
-                                  );
-                                }).toList(),
+                              //   items: <String>[
+                              //     'مستخدم',
+                              //     'صاحب تشليح',
+                              //   ].map<DropdownMenuItem<String>>((String value) {
+                              //     return DropdownMenuItem<String>(
+                              //       value: value,
+                              //       child: Text(
+                              //         value,
+                              //         style: TextStyle(
+                              //             fontSize: 15,
+                              //             color: Color.fromARGB(255, 69, 88, 181)),
+                              //       ),
+                              //     );
+                              //   }).toList(),
 
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    dropdownValue2 = newValue!;
-                                  });
-                                  (context as Element).reassemble();
-                                },
-                              ),
+                              //   onChanged: (String? newValue) {
+                              //     setState(() {
+                              //       dropdownValue2 = newValue!;
+                              //     });
+                              //     (context as Element).reassemble();
+                              //   },
+                              // ),
                               SizedBox(
                                 width: 5,
                               ),
-                              Text(": نوع الحساب")
+                              Text(": نوع الحساب",  style: TextStyle(
+                                                        color: Color.fromARGB(255, 69, 88, 181),
+                                                        fontSize: 15))
                             ],
                           ),
                         ),
